@@ -12,20 +12,11 @@ jobs:
       fail-fast: false
       matrix:
         imgtag:
-          - "golang:1.15-buster"
-          - "golang:1.16-buster"
-          - "golang:1.17-buster"
+          - "golang:1.19.1-buster"
         goarch:
           - "amd64"
         nsq_ver:
-          - "nsq-1.1.0.linux-amd64.go1.10.3"
-          - "nsq-1.2.0.linux-amd64.go1.12.9"
-          - "nsq-1.2.1.linux-amd64.go1.16.6"
-        include:
-          # test 386 only against latest version of NSQ
-          - imgtag: "golang:1.17-buster"
-            goarch: "386"
-            nsq_ver: "nsq-1.2.1.linux-amd64.go1.16.6"
+          - "nsq-1.2.1.linux-amd64.go1.19.1"
           
     container: "${{matrix.imgtag}}"
     env:
@@ -41,7 +32,7 @@ jobs:
       - name: download NSQ
         run: |
           cd ${{env.SRCDIR}}
-          curl -sSL "http://bitly-downloads.s3.amazonaws.com/nsq/${{matrix.nsq_ver}}.tar.gz" \
+          curl -sSL "https://github.com/cloudlinux/nsq/releases/download/1.2.1-1/${{matrix.nsq_ver}}.tar.gz" \
                     | tar -xzv --strip-components=1
 
       - name: test

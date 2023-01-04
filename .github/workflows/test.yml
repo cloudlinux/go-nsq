@@ -16,8 +16,8 @@ jobs:
         goarch:
           - "amd64"
         nsq_ver:
-          - "nsq-1.2.1.linux-amd64.go1.19.1"
-          
+          - "https://github.com/cloudlinux/nsq/releases/download/1.2.1-1/nsq-1.2.1-1.linux-amd64.go1.19.1.tar.gz"
+
     container: "${{matrix.imgtag}}"
     env:
       GOPATH: "${{github.workspace}}/go"
@@ -32,8 +32,7 @@ jobs:
       - name: download NSQ
         run: |
           cd ${{env.SRCDIR}}
-          curl -sSL "https://github.com/cloudlinux/nsq/releases/download/1.2.1-1/${{matrix.nsq_ver}}.tar.gz" \
-                    | tar -xzv --strip-components=1
+          curl -sSL "${{matrix.nsq_ver}}" | tar -xzv --strip-components=1
 
       - name: test
         run: |
